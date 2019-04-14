@@ -64,8 +64,7 @@ public class Autostrada {
 
 	public void addCaselli(List<Casello> caselli) {
 		for (Casello casello: caselli) {
-			casello.setAutostrada(this);
-			this.caselli.add(casello);
+			addCasello(casello);
 		}
 	}
 
@@ -76,52 +75,24 @@ public class Autostrada {
 	}
 
 	public double getTariffaVeicolo(Veicolo veicolo) {
-		if (veicolo.isClasseA()) {
-			return getTariffaVeicoloClasseA(veicolo);
-		} else if (veicolo.isClasseB()) {
-			return getTariffaVeicoloClasseB(veicolo);
-		} else if (veicolo.isClasse3()) {
-			return getTariffaVeicolo3Assi(veicolo);
-		} else if(veicolo.isClasse4()) {
-			return getTariffaVeicolo4Assi(veicolo);
+		double[] tariffe;
+		if (this.tipo == Tipologia.MONTAGNA) {
+			tariffe = tariffeMontagna;
 		} else {
-			return getTariffaVeicolo5Assi(veicolo);
+			tariffe = tariffePianura;
 		}
-	}
 
-	private double getTariffaVeicoloClasseA(Veicolo veicolo) {
-		if (this.tipo == Tipologia.MONTAGNA)
-			return this.tariffeMontagna[0];
-		else
-			return this.tariffePianura[0];
-	}
-
-	private double getTariffaVeicoloClasseB(Veicolo veicolo) {
-		if (this.tipo == Tipologia.MONTAGNA)
-			return this.tariffeMontagna[1];
-		else
-			return this.tariffePianura[1];
-	}
-
-	private double getTariffaVeicolo3Assi(Veicolo veicolo) {
-		if (this.tipo == Tipologia.MONTAGNA)
-			return this.tariffeMontagna[2];
-		else
-			return this.tariffePianura[2];
-	}
-
-	private double getTariffaVeicolo4Assi(Veicolo veicolo) {
-		if (this.tipo == Tipologia.MONTAGNA)
-			return this.tariffeMontagna[3];
-		else
-			return this.tariffePianura[3];
-	}
-
-	private double getTariffaVeicolo5Assi(Veicolo veicolo) {
-		if (this.tipo == Tipologia.MONTAGNA)
-			return this.tariffeMontagna[4];
-		else
-			return this.tariffePianura[4];
+		if (veicolo.isClasseA()) {
+			return tariffe[0];
+		} else if (veicolo.isClasseB()) {
+			return tariffe[1];
+		} else if (veicolo.isClasse3()) {
+			return tariffe[2];
+		} else if(veicolo.isClasse4()) {
+			return tariffe[3];
+		} else {
+			return tariffe[4];
+		}
 	}
 
 	public boolean equals(Object o) {
